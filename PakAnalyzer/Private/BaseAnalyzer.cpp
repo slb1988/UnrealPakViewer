@@ -1,12 +1,12 @@
 #include "BaseAnalyzer.h"
 
+#include "Runtime/Launch/Resources/Version.h"
 #if ENGINE_MAJOR_VERSION >= 5 && ENGINE_MINOR_VERSION >= 1
 #include "AssetRegistry/AssetRegistryState.h"
 #else
 #include "AssetRegistryState.h"
 #endif
 #include "Json.h"
-#include "Launch/Resources/Version.h"
 #include "Misc/Base64.h"
 #include "Misc/FileHelper.h"
 #include "Misc/Paths.h"
@@ -24,7 +24,7 @@ FBaseAnalyzer::~FBaseAnalyzer()
 
 }
 
-bool FBaseAnalyzer::LoadPakFiles(const TArray<FString>& InPakPaths, const TArray<FString>& InDefaultAESKeys)
+bool FBaseAnalyzer::LoadPakFiles(const TArray<FString>& InPakPaths, const TArray<FString>& InDefaultAESKeys, int32 ContainerStartIndex)
 {
 	Reset();
 	return false;

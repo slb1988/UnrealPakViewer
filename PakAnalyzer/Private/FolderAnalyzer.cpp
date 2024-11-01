@@ -2,6 +2,7 @@
 
 #include "FolderAnalyzer.h"
 
+#include "Runtime/Launch/Resources/Version.h"
 #if ENGINE_MAJOR_VERSION >= 5 && ENGINE_MINOR_VERSION >= 1
 #include "AssetRegistry/ARFilter.h"
 #include "AssetRegistry/AssetData.h"
@@ -16,7 +17,6 @@
 #include "HAL/PlatformMisc.h"
 #include "HAL/UnrealMemory.h"
 #include "Json.h"
-#include "Launch/Resources/Version.h"
 #include "Misc/Base64.h"
 #include "Misc/Paths.h"
 #include "Misc/ScopeLock.h"
@@ -38,7 +38,7 @@ FFolderAnalyzer::~FFolderAnalyzer()
 	Reset();
 }
 
-bool FFolderAnalyzer::LoadPakFiles(const TArray<FString>& InPakPaths, const TArray<FString>& InDefaultAESKeys)
+bool FFolderAnalyzer::LoadPakFiles(const TArray<FString>& InPakPaths, const TArray<FString>& InDefaultAESKeys, int32 ContainerStartIndex)
 {
 	const FString InPakPath = InPakPaths.Num() > 0 ? InPakPaths[0] : TEXT("");
 	if (InPakPath.IsEmpty())

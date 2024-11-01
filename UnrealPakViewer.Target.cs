@@ -12,9 +12,9 @@ public class UnrealPakViewerTarget : TargetRules
         LinkType = TargetLinkType.Monolithic;
         LaunchModuleName = "UnrealPakViewer";
         SolutionDirectory = "ExternalPrograms";
-        DefaultBuildSettings = BuildSettingsVersion.V2;
+        DefaultBuildSettings = BuildSettingsVersion.Latest;
 
-		IncludeOrderVersion = EngineIncludeOrderVersion.Unreal5_1;
+		IncludeOrderVersion = EngineIncludeOrderVersion.Latest;
 		//ExtraModuleNames.Add("EditorStyle");
 
 		// Lean and mean

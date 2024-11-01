@@ -2,6 +2,7 @@
 
 #include "PakAnalyzer.h"
 
+#include "Runtime/Launch/Resources/Version.h"
 #if ENGINE_MAJOR_VERSION >= 5 && ENGINE_MINOR_VERSION >= 1
 #include "AssetRegistry/ARFilter.h"
 #include "AssetRegistry/AssetData.h"
@@ -15,12 +16,11 @@
 #include "HAL/PlatformFile.h"
 #include "HAL/PlatformMisc.h"
 #include "Json.h"
-#include "Launch/Resources/Version.h"
 #include "Misc/Base64.h"
 #include "Misc/Paths.h"
 #include "Misc/ScopeLock.h"
-#include "Serialization/Archive.h"
-#include "Serialization/MemoryWriter.h"
+// #include "Serialization/Archive.h"
+// #include "Serialization/MemoryWriter.h"
 
 #include "AssetParseThreadWorker.h"
 #include "CommonDefines.h"
@@ -182,7 +182,7 @@ FPakTreeEntryPtr FPakAnalyzer::LoadPakFile(const FString& InPakPath, const FStri
 	return PakTreeRoot;
 }
 
-bool FPakAnalyzer::LoadPakFiles(const TArray<FString>& InPakPaths, const TArray<FString>& InDefaultAESKeys)
+bool FPakAnalyzer::LoadPakFiles(const TArray<FString>& InPakPaths, const TArray<FString>& InDefaultAESKeys, int32 ContainerStartIndex)
 {
 	TArray<FString> PakFiles;
 	TArray<FString> UsedDefaultAESKeys;
@@ -228,7 +228,7 @@ bool FPakAnalyzer::LoadPakFiles(const TArray<FString>& InPakPaths, const TArray<
 
 	ParseAssetFile();
 
-	FPakAnalyzerDelegates::OnPakLoadFinish.Broadcast();
+	//FPakAnalyzerDelegates::OnPakLoadFinish.Broadcast();
 
 	return true;
 }

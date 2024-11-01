@@ -27,6 +27,7 @@ enum class EIoStoreTocVersion : uint8
 	PartitionSize,
 	PerfectHash,
 	PerfectHashWithOverflow,
+	OnDemandMetaData,
 	LatestPlusOne,
 	Latest = LatestPlusOne - 1
 };
@@ -233,8 +234,8 @@ struct FPackageStoreExportEntry
 {
 	FPackageStoreExportEntry(const FFilePackageStoreEntry& InEntry)
 		//: ExportBundlesSize(InEntry.ExportBundlesSize)
-		: ExportCount(InEntry.ExportCount)
-		, ExportBundleCount(InEntry.ExportBundleCount)
+		// : ExportCount(InEntry.ExportCount)
+		// , ExportBundleCount(InEntry.ExportBundleCount)
 		//, LoadOrder(InEntry.LoadOrder)
 		//, Pad(InEntry.Pad)
 	{
@@ -272,6 +273,7 @@ struct FIoStoreExport
 {
 	FName Name;
 	FName FullName;
+	uint64 PublicExportHash = 0;
 	FPackageObjectIndex OuterIndex;
 	FPackageObjectIndex ClassIndex;
 	FPackageObjectIndex SuperIndex;
@@ -310,6 +312,7 @@ struct FStorePackageInfo
 	FAssetSummaryPtr AssetSummary;
 	TArray<FPackageId> DependencyPackages;
 	FName DefaultClassName;
+	TArray<uint64> ImportedPublicExportHashes;
 
 	inline bool operator ==(const FStorePackageInfo& Rhs) const
 	{
