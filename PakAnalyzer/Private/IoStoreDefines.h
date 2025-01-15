@@ -16,6 +16,9 @@
 
 #include "PakFileEntry.h"
 
+#if ENGINE_MAJOR_VERSION >=5 && ENGINE_MINOR_VERSION >= 5
+#include "IO/IoStore.h"
+#else
 /**
  * I/O store container format version
  */
@@ -206,6 +209,8 @@ struct FIoStoreTocEntryMeta
 	FIoChunkHash ChunkHash;
 	FIoStoreTocEntryMetaFlags Flags;
 };
+
+#endif
 
 struct FIoStoreTocResourceInfo
 {

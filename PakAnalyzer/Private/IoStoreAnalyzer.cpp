@@ -559,7 +559,11 @@ bool FIoStoreAnalyzer::InitializeReaders(const TArray<FString>& InPaks, const TA
 		TSharedPtr<FIoStoreReader>& Reader = ContainerInfo.Reader;
 
 		TIoStatusOr<FIoStoreTocChunkInfo> ChunkInfo = Reader->GetChunkInfo(PackageInfo.ChunkId);
+#if ENGINE_MAJOR_VERSION > 5 || (ENGINE_MAJOR_VERSION == 5 && ENGINE_MINOR_VERSION >= 5)
+		PackageInfo.ChunkInfo = FIoStoreTocChunkInfo(ChunkInfo.ValueOrDie());
+#else
 		PackageInfo.ChunkInfo = ChunkInfo.ValueOrDie();
+#endif
 
 		FIoStoreTocResourceInfo* TocResource = TocResources.Find(ContainerInfo.Id.Value());
 		if (TocResource)
@@ -1265,8 +1269,11 @@ bool FIoStoreAnalyzer::TryDecryptIoStore(const FIoStoreTocResourceInfo& TocResou
 		RemainingSize -= SizeInBlock;
 		Dst += SizeInBlock;
 	}
-
+#if ENGINE_MAJOR_VERSION > 5 || (ENGINE_MAJOR_VERSION == 5 && ENGINE_MINOR_VERSION >= 5)
+	FIoHash ChunkHash = FIoHash::HashBuffer(RawData.GetData(), RawData.Num());
+#else
 	FIoChunkHash ChunkHash = FIoChunkHash::HashBuffer(RawData.GetData(), RawData.Num());
+#endif
 	if (ChunkHash != Meta.ChunkHash)
 	{
 		return false;
@@ -1306,7 +1313,11 @@ bool FIoStoreAnalyzer::FillPackageInfo(const FIoStoreTocResourceInfo& TocResourc
 	const int32* Index = TocResource.ChunkIdToIndex.Find(OutPackageInfo.ChunkId);
 	if (Index && TocResource.ChunkMetas.IsValidIndex(*Index))
 	{
+#if ENGINE_MAJOR_VERSION > 5 || (ENGINE_MAJOR_VERSION == 5 && ENGINE_MINOR_VERSION >= 5)
+		OutPackageInfo.ChunkHash = BytesToHex(TocResource.ChunkMetas[*Index].ChunkHash.GetBytes(), 20);
+#else
 		OutPackageInfo.ChunkHash = TocResource.ChunkMetas[*Index].ChunkHash.ToString();
+#endif
 	}
 
 	return true;
